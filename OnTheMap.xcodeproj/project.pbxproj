@@ -79,13 +79,13 @@
 		B3DEBC491BA4AE9E00CB924B /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				B3DEBC4A1BA4AE9E00CB924B /* Supporting Files */,
 				B3DEBC4C1BA4AE9E00CB924B /* AppDelegate.swift */,
 				B3DEBC4E1BA4AE9E00CB924B /* FirstViewController.swift */,
-				B3DEBC501BA4AE9E00CB924B /* SecondViewController.swift */,
-				B3DEBC521BA4AE9E00CB924B /* Main.storyboard */,
 				B3DEBC551BA4AE9E00CB924B /* Images.xcassets */,
 				B3DEBC571BA4AE9E00CB924B /* LaunchScreen.xib */,
-				B3DEBC4A1BA4AE9E00CB924B /* Supporting Files */,
+				B3DEBC521BA4AE9E00CB924B /* Main.storyboard */,
+				B3DEBC501BA4AE9E00CB924B /* SecondViewController.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -95,14 +95,14 @@
 			children = (
 				B3DEBC4B1BA4AE9E00CB924B /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		B3DEBC611BA4AE9E00CB924B /* OnTheMapTests */ = {
 			isa = PBXGroup;
 			children = (
-				B3DEBC641BA4AE9E00CB924B /* OnTheMapTests.swift */,
 				B3DEBC621BA4AE9E00CB924B /* Supporting Files */,
+				B3DEBC641BA4AE9E00CB924B /* OnTheMapTests.swift */,
 			);
 			path = OnTheMapTests;
 			sourceTree = "<group>";
@@ -112,7 +112,7 @@
 			children = (
 				B3DEBC631BA4AE9E00CB924B /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +246,7 @@
 				B3DEBC531BA4AE9E00CB924B /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		B3DEBC571BA4AE9E00CB924B /* LaunchScreen.xib */ = {
@@ -254,6 +255,7 @@
 				B3DEBC581BA4AE9E00CB924B /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -344,7 +346,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = OnTheMap/Info.plist;
+				INFOPLIST_FILE = "OnTheMap/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -354,7 +356,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = OnTheMap/Info.plist;
+				INFOPLIST_FILE = "OnTheMap/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -372,7 +374,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = OnTheMapTests/Info.plist;
+				INFOPLIST_FILE = "OnTheMapTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OnTheMap.app/OnTheMap";
@@ -387,7 +389,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = OnTheMapTests/Info.plist;
+				INFOPLIST_FILE = "OnTheMapTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OnTheMap.app/OnTheMap";
@@ -413,6 +415,7 @@
 				B3DEBC6A1BA4AE9E00CB924B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B3DEBC6B1BA4AE9E00CB924B /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +424,7 @@
 				B3DEBC6D1BA4AE9E00CB924B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
