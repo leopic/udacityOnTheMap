@@ -27,15 +27,16 @@ class FirstViewController: UIViewController {
             println(error)
         }
         
-        parseClient.addStudentLocation([
-            "uniqueKey": "32343534543543",
-            "firstName": "la musica",
-            "lastName": "los musicos",
-            "mapString": "Mountain View, CA",
-            "mediaURL": "https://udacity.com",
-            "latitude": 37.386052,
-            "longitude": -122.083851
-            ], completionHandler: { (result, error) -> Void in
+        let studentLocation = StudentLocation()
+        studentLocation.uniqueKey = "32343534543543"
+        studentLocation.firstName = "Leo"
+        studentLocation.lastName = "Picado"
+        studentLocation.mapString = "Mountain View, CA"
+        studentLocation.mediaURL = "http://leonardopicado.com"
+        studentLocation.latitude = 37.386052
+        studentLocation.longitude = -122.083851
+        
+        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
                 println(result)
                 println(error)
         })

@@ -25,10 +25,10 @@ class ParseClient:Client {
         return task
     }
 
-    func addStudentLocation(jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func addStudentLocation(location: StudentLocation, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let request = getBaseNSURLRequest(Methods.StudentLocation, httpMethod: HTTPMethods.POST)
         var jsonifyError: NSError? = nil
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(location.asDictionary(), options: nil, error: &jsonifyError)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil { // Handle error…
