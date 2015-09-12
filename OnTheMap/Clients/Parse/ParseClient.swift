@@ -11,31 +11,63 @@ import Foundation
 class ParseClient:Client {
     
     let baseURL = "https://api.parse.com/"
-
+    
+    // should return an array of locations
     func getStudentLocations(completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let request = getBaseNSURLRequest(Methods.StudentLocation)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
+            
             if error != nil { // Handle error...
+                println("something totally failed loading student locations...")
                 return
             }
-            println(NSString(data: data, encoding: NSUTF8StringEncoding))
+            
+            Client.parseJSONWithCompletionHandler(data, completionHandler: { (parsedResponse, parsingError) -> Void in
+                if parsingError == nil {
+                    if let objectId = parsedResponse.valueForKeyPath(JSONResponseKeys.ObjectId) as? String,
+                        createdAt = parsedResponse.valueForKeyPath(JSONResponseKeys.CreatedAt) as? String {
+                            println("object was created succesfully")
+                    } else {
+                        println("error creating object")
+                    }
+                } else {
+                    println("object might have been created, but there was an error parsing the response")
+                }
+            })
+            
         }
         task.resume()
         return task
     }
-
+    
+    // should return a boolean and a message
     func addStudentLocation(location: StudentLocation, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let request = getBaseNSURLRequest(Methods.StudentLocation, httpMethod: HTTPMethods.POST)
         var jsonifyError: NSError? = nil
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(location.asDictionary(), options: nil, error: &jsonifyError)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
+            
             if error != nil { // Handle error…
+                println("something totally failed adding a student location...")
                 return
             }
-            println(NSString(data: data, encoding: NSUTF8StringEncoding))
+            
+            Client.parseJSONWithCompletionHandler(data, completionHandler: { (parsedResponse, parsingError) -> Void in
+                if parsingError == nil {
+                    if let objectId = parsedResponse.valueForKeyPath(JSONResponseKeys.ObjectId) as? String,
+                        createdAt = parsedResponse.valueForKeyPath(JSONResponseKeys.CreatedAt) as? String {
+                            println("object was created succesfully")
+                    } else {
+                        println("error creating object")
+                    }
+                } else {
+                    println("object might have been created, but there was an error parsing the response")
+                }
+            })
         }
+        
         task.resume()
         return task
     }
@@ -65,11 +97,12 @@ class ParseClient:Client {
     }
     
     struct JSONBodyKeys {
-    
+        
     }
     
     struct JSONResponseKeys {
-    
+        static let CreatedAt = "createdAt"
+        static let ObjectId = "objectId"
     }
     
     // Singleton

@@ -16,8 +16,8 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        udacityTests()
-        parseTests()
+        udacityTests()
+//        parseTests()
     }
     
     private func parseTests() {
@@ -58,14 +58,27 @@ class FirstViewController: UIViewController {
                         var student = Student(dictionary: userInfo! as! [String:AnyObject])
                         println("Student key: \(student.key)")
                         
-                        // log out
-                        udacityClient.logOut({ (success, errorMessage) -> Void in
-                            if success {
-                                println("logged out succesfully :)")
-                            } else {
-                                println("error loggin out :(")
-                            }
+                        
+                        let parseClient = ParseClient.sharedInstance()
+                        let location = StudentLocation(fromStudent: student)
+                        location.mapString = "Mountain View, CA"
+                        location.mediaURL = "http://leonardopicado.com"
+                        location.latitude = 37.386052
+                        location.longitude = -122.083851
+
+                        parseClient.addStudentLocation(location, completionHandler: { (result, error) -> Void in
+                            println(result)
+                            println(error)
                         })
+                        
+                        // log out
+//                        udacityClient.logOut({ (success, errorMessage) -> Void in
+//                            if success {
+//                                println("logged out succesfully :)")
+//                            } else {
+//                                println("error loggin out :(")
+//                            }
+//                        })
                         
                     } else {
                         if let error = errorMessage {

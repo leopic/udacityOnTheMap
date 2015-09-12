@@ -14,7 +14,6 @@ class Student {
     var email:String!
     var key:String!
     var imageURL:NSURL?
-    var location:StudentLocation?
     
     /**
     Create a student from the result of UdacityClient->getPublicData
