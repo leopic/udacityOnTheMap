@@ -13,6 +13,14 @@ class LoginViewController: UIViewController {
     @IBOutlet var textEmail:UITextField!
     @IBOutlet var textPassword:UITextField!
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let student = Student.fetch() {
+            completeLogin()
+        }
+    }
+    
     func completeLogin() {
         dispatch_async(dispatch_get_main_queue(), {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
@@ -25,7 +33,7 @@ class LoginViewController: UIViewController {
             var controller = UIAlertController(title: "Error logging in",
                 message: errorMessage,
                 preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
             controller.addAction(action)
             self.presentViewController(controller, animated: true, completion: nil)
         })
@@ -48,18 +56,26 @@ class LoginViewController: UIViewController {
                 (success, errorMessage) in
                 
                 if success {
-                    self.completeLogin()
+                    udacityClient.getStudentPublicData({ (userInfo, errorMessage) -> Void in
+                        if errorMessage == nil {
+                            self.completeLogin()
+                            let student = Student(dictionary: userInfo! as! [String:AnyObject])
+                            Student.save(student)
+                        } else {
+                            self.showErrorMessage("Unable to retrieve the student's publi data")
+                        }
+                    })
                 } else {
                     hud.dismissAfterDelay(0.1)
                     self.showErrorMessage(errorMessage!)
                 }
             }
-        }        
+        }
     }
     
     @IBAction func btnSignUp() {
         let signUpURL = NSURL(string: "https://www.udacity.com/account/auth#!/signin")
         UIApplication.sharedApplication().openURL(signUpURL!)
     }
-
+    
 }

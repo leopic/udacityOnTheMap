@@ -8,12 +8,31 @@
 
 import Foundation
 
-class Student {
+class Student:NSObject, NSCoding {
     var firstName:String!
     var lastName:String!
     var email:String!
     var key:String!
     var imageURL:NSURL?
+    
+    required init(coder aDecoder: NSCoder) {
+        if let firstName = aDecoder.decodeObjectForKey("firstName") as? String,
+            lastName = aDecoder.decodeObjectForKey("lastName") as? String,
+            email = aDecoder.decodeObjectForKey("email") as? String,
+            key = aDecoder.decodeObjectForKey("key") as? String {
+                self.firstName = firstName
+                self.lastName = lastName
+                self.email = email
+                self.key = key
+        }
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(self.firstName, forKey: "firstName")
+        aCoder.encodeObject(self.lastName, forKey: "lastName")
+        aCoder.encodeObject(self.email, forKey: "email")
+        aCoder.encodeObject(self.key, forKey: "key")
+    }
     
     /**
     Create a student from the result of UdacityClient->getPublicData
@@ -35,4 +54,49 @@ class Student {
             }
         }
     }
+    
+    /**
+    Stores the current student in the NSUserDefaults.
+    
+    :returns: true upon a succesfull write/read.
+    */
+    class func save(student:Student) -> Bool {
+        let ObjectKey = "student"
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(student), forKey: ObjectKey)
+        
+        if let storedStudent = Student.fetch() {
+            return student.firstName == storedStudent.firstName
+        }
+        
+        return false
+    }
+    
+    /**
+    Retrieves the previously stored student from NSUserDefaults.
+    
+    :returns: Student|nil
+    */
+    class func fetch() -> Student? {
+        let ObjectKey = "student"
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        if let studentData = userDefaults.objectForKey(ObjectKey) as? NSData {
+            if let student = NSKeyedUnarchiver.unarchiveObjectWithData(studentData) as? Student {
+                return student
+            }
+        }
+        
+        return nil
+    }
+    
+    /**
+    Removes the stored student from NSUserDefaults.
+    */
+    class func remove() {
+        let ObjectKey = "student"
+        var userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.removeObjectForKey(ObjectKey)
+    }
+    
 }
