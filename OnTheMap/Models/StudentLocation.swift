@@ -60,4 +60,26 @@ class StudentLocation {
         firstName = student.firstName
         lastName = student.lastName
     }
+    
+    convenience init(fromParseResponse data:[String:AnyObject]) {
+        self.init()
+        firstName = data["firstName"] as! String
+        lastName = data["lastName"] as! String
+        mapString = data["mapString"] as! String
+        mediaURL = data["mediaURL"] as! String
+        objectId = data["objectId"] as? String
+        uniqueKey = data["uniqueKey"] as! String
+        latitude = data["latitude"] as! Float
+        longitude = data["longitude"] as! Float
+    }
+    
+    static func createFromResponse(data: [[String:AnyObject]]) -> [StudentLocation] {
+        var locations = [StudentLocation]()
+        
+        for location in data {
+            locations.append(StudentLocation(fromParseResponse: location))
+        }
+        
+        return locations
+    }
 }

@@ -15,49 +15,47 @@ class FirstViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         udacityTests()
 //        parseTests()
     }
     
     private func parseTests() {
         let parseClient = ParseClient.sharedInstance()
-        parseClient.getStudentLocations { (result, error) -> Void in
-            println(result)
-            println(error)
+        parseClient.getStudentLocations { (locations, message) -> Void in
+            println(locations)
+            println(message)
         }
         
-        let studentLocation = StudentLocation()
-        studentLocation.uniqueKey = "32343534543543"
-        studentLocation.firstName = "Leo"
-        studentLocation.lastName = "Picado"
-        studentLocation.mapString = "Mountain View, CA"
-        studentLocation.mediaURL = "http://leonardopicado.com"
-        studentLocation.latitude = 37.386052
-        studentLocation.longitude = -122.083851
+        //        let studentLocation = StudentLocation()
+        //        studentLocation.uniqueKey = "32343534543543"
+        //        studentLocation.firstName = "Leo"
+        //        studentLocation.lastName = "Picado"
+        //        studentLocation.mapString = "Mountain View, CA"
+        //        studentLocation.mediaURL = "http://leonardopicado.com"
+        //        studentLocation.latitude = 37.386052
+        //        studentLocation.longitude = -122.083851
         
-        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
-                println(result)
-                println(error)
-        })
+        //        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
+        //                println(result)
+        //                println(error)
+        //        })
         
     }
     
     private func udacityTests() {
         var udacityClient = UdacityClient.sharedInstance()
         
-        // login
         udacityClient.logInWithUsername(username, andPassword: password) {
             (success, errorMessage) in
             
             if success {
-                
-                // get public data
+                println("udacityClient.logInWithUsername")
+
                 udacityClient.getStudentPublicData({ (userInfo, errorMessage) -> Void in
                     if errorMessage == nil {
                         var student = Student(dictionary: userInfo! as! [String:AnyObject])
-                        println("Student key: \(student.key)")
-                        
+                        println("udacityClient.getStudentPublicData")
                         
                         let parseClient = ParseClient.sharedInstance()
                         let location = StudentLocation(fromStudent: student)
@@ -65,20 +63,18 @@ class FirstViewController: UIViewController {
                         location.mediaURL = "http://leonardopicado.com"
                         location.latitude = 37.386052
                         location.longitude = -122.083851
-
-                        parseClient.addStudentLocation(location, completionHandler: { (result, error) -> Void in
-                            println(result)
-                            println(error)
-                        })
                         
-                        // log out
-//                        udacityClient.logOut({ (success, errorMessage) -> Void in
-//                            if success {
-//                                println("logged out succesfully :)")
-//                            } else {
-//                                println("error loggin out :(")
-//                            }
-//                        })
+                        parseClient.addStudentLocation(location, completionHandler: { (success, message) -> Void in
+                            if success {
+                                println("parseClient.addStudentLocation")
+                                
+                                udacityClient.logOut({ (success, errorMessage) -> Void in
+                                    if success {
+                                        println("udacityClient.logOut")
+                                    }
+                                })
+                            }
+                        })
                         
                     } else {
                         if let error = errorMessage {
@@ -92,7 +88,6 @@ class FirstViewController: UIViewController {
                     println(error)
                 }
             }
-            
         }
     }
     

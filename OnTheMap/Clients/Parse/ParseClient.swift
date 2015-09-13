@@ -12,67 +12,7 @@ class ParseClient:Client {
     
     let baseURL = "https://api.parse.com/"
     
-    // should return an array of locations
-    func getStudentLocations(completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        let request = getBaseNSURLRequest(Methods.StudentLocation)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            
-            if error != nil { // Handle error...
-                println("something totally failed loading student locations...")
-                return
-            }
-            
-            Client.parseJSONWithCompletionHandler(data, completionHandler: { (parsedResponse, parsingError) -> Void in
-                if parsingError == nil {
-                    if let objectId = parsedResponse.valueForKeyPath(JSONResponseKeys.ObjectId) as? String,
-                        createdAt = parsedResponse.valueForKeyPath(JSONResponseKeys.CreatedAt) as? String {
-                            println("object was created succesfully")
-                    } else {
-                        println("error creating object")
-                    }
-                } else {
-                    println("object might have been created, but there was an error parsing the response")
-                }
-            })
-            
-        }
-        task.resume()
-        return task
-    }
-    
-    // should return a boolean and a message
-    func addStudentLocation(location: StudentLocation, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        let request = getBaseNSURLRequest(Methods.StudentLocation, httpMethod: HTTPMethods.POST)
-        var jsonifyError: NSError? = nil
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(location.asDictionary(), options: nil, error: &jsonifyError)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            
-            if error != nil { // Handle error…
-                println("something totally failed adding a student location...")
-                return
-            }
-            
-            Client.parseJSONWithCompletionHandler(data, completionHandler: { (parsedResponse, parsingError) -> Void in
-                if parsingError == nil {
-                    if let objectId = parsedResponse.valueForKeyPath(JSONResponseKeys.ObjectId) as? String,
-                        createdAt = parsedResponse.valueForKeyPath(JSONResponseKeys.CreatedAt) as? String {
-                            println("object was created succesfully")
-                    } else {
-                        println("error creating object")
-                    }
-                } else {
-                    println("object might have been created, but there was an error parsing the response")
-                }
-            })
-        }
-        
-        task.resume()
-        return task
-    }
-    
-    private func getBaseNSURLRequest(method:String, httpMethod:String = HTTPMethods.GET) -> NSMutableURLRequest {
+    func getBaseNSURLRequest(method:String, httpMethod:String = HTTPMethods.GET) -> NSMutableURLRequest {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)\(method)")!)
         request.addValue(Credentials.ApplicationId, forHTTPHeaderField: Headers.AplicationId)
         request.addValue(Credentials.APIKey, forHTTPHeaderField: Headers.RestAPIKey)
@@ -96,13 +36,21 @@ class ParseClient:Client {
         static let StudentLocation = "1/classes/StudentLocation"
     }
     
-    struct JSONBodyKeys {
-        
-    }
-    
     struct JSONResponseKeys {
-        static let CreatedAt = "createdAt"
+        // PFObject
         static let ObjectId = "objectId"
+        static let CreatedAt = "createdAt"
+        static let UpdatedAt = "updatedAt"
+        
+        // Location retrieval
+        static let Results = "results"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let UniqueKey = "uniqueKey"
     }
     
     // Singleton
