@@ -13,12 +13,48 @@ class LoginViewController: UIViewController {
     @IBOutlet var textEmail:UITextField!
     @IBOutlet var textPassword:UITextField!
     
+    func completeLogin() {
+        dispatch_async(dispatch_get_main_queue(), {
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
+            self.presentViewController(controller, animated: true, completion: nil)
+        })
+    }
+    
+    func showErrorMessage(errorMessage:String) {
+        dispatch_async(dispatch_get_main_queue(), {
+            var controller = UIAlertController(title: "Error logging in",
+                message: errorMessage,
+                preferredStyle: .Alert)
+            let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+            controller.addAction(action)
+            self.presentViewController(controller, animated: true, completion: nil)
+        })
+    }
+    
     @IBAction func btnLogin() {
-        let hud = JGProgressHUD(style: .Light)
-        hud.textLabel.text = "logging in..."
-        hud.animation = JGProgressHUDFadeZoomAnimation()
-        hud.showInView(self.view)
-        hud.dismissAfterDelay(0.8)
+        let username = textEmail.text
+        let password = textPassword.text
+        
+        if username.isEmpty || password.isEmpty {
+            showErrorMessage("Make sure you provide both a username and password")
+        } else {
+            let hud = JGProgressHUD(style: .Light)
+            hud.textLabel.text = "Checking your credentials"
+            hud.animation = JGProgressHUDFadeZoomAnimation()
+            hud.showInView(self.view)
+            
+            let udacityClient = UdacityClient.sharedInstance()
+            udacityClient.logInWithUsername(username, andPassword: password) {
+                (success, errorMessage) in
+                
+                if success {
+                    self.completeLogin()
+                } else {
+                    hud.dismissAfterDelay(0.1)
+                    self.showErrorMessage(errorMessage!)
+                }
+            }
+        }        
     }
     
     @IBAction func btnSignUp() {
