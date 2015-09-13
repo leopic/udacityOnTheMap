@@ -9,16 +9,17 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    
+    @IBOutlet var textEmail:UITextField!
+    @IBOutlet var textPassword:UITextField!
+    
+    @IBAction func btnLogin() {
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func btnSignUp() {
+        let signUpURL = NSURL(string: "https://www.udacity.com/account/auth#!/signin")
+        UIApplication.sharedApplication().openURL(signUpURL!)
     }
 
 }
