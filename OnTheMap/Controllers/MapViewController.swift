@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class MapViewController: UIViewController {
     
     let username = "udacity@leonardopicado.com"
     let password = "123queso"
