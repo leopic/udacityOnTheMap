@@ -14,7 +14,11 @@ class LoginViewController: UIViewController {
     @IBOutlet var textPassword:UITextField!
     
     @IBAction func btnLogin() {
-        
+        let hud = JGProgressHUD(style: .Light)
+        hud.textLabel.text = "logging in..."
+        hud.animation = JGProgressHUDFadeZoomAnimation()
+        hud.showInView(self.view)
+        hud.dismissAfterDelay(0.8)
     }
     
     @IBAction func btnSignUp() {

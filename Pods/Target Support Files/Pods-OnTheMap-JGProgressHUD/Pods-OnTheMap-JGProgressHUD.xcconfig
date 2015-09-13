@@ -1,0 +1,1 @@
+PODS_ONTHEMAP_JGPROGRESSHUD_OTHER_LDFLAGS = -framework "Foundation" -framework "QuartzCore" -framework "UIKit"
