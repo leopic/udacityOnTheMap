@@ -15,6 +15,7 @@ class Student:NSObject, NSCoding {
     var key:String!
     var imageURL:NSURL?
     
+    // So we can store the object in NSUserDefaults
     required init(coder aDecoder: NSCoder) {
         if let firstName = aDecoder.decodeObjectForKey("firstName") as? String,
             lastName = aDecoder.decodeObjectForKey("lastName") as? String,
@@ -27,6 +28,7 @@ class Student:NSObject, NSCoding {
         }
     }
     
+    // So we can get it back from NSUserDefaults
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(self.firstName, forKey: "firstName")
         aCoder.encodeObject(self.lastName, forKey: "lastName")
@@ -53,50 +55,6 @@ class Student:NSObject, NSCoding {
                 imageURL = NSURL(string: imageURLString)
             }
         }
-    }
-    
-    /**
-    Stores the current student in the NSUserDefaults.
-    
-    :returns: true upon a succesfull write/read.
-    */
-    class func save(student:Student) -> Bool {
-        let ObjectKey = "student"
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(student), forKey: ObjectKey)
-        
-        if let storedStudent = Student.fetch() {
-            return student.firstName == storedStudent.firstName
-        }
-        
-        return false
-    }
-    
-    /**
-    Retrieves the previously stored student from NSUserDefaults.
-    
-    :returns: Student|nil
-    */
-    class func fetch() -> Student? {
-        let ObjectKey = "student"
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
-        if let studentData = userDefaults.objectForKey(ObjectKey) as? NSData {
-            if let student = NSKeyedUnarchiver.unarchiveObjectWithData(studentData) as? Student {
-                return student
-            }
-        }
-        
-        return nil
-    }
-    
-    /**
-    Removes the stored student from NSUserDefaults.
-    */
-    class func remove() {
-        let ObjectKey = "student"
-        var userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.removeObjectForKey(ObjectKey)
     }
     
 }

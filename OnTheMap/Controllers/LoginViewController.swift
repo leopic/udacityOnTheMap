@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+                
         if let student = Student.fetch() {
             completeLogin()
         }
@@ -59,10 +59,8 @@ class LoginViewController: UIViewController {
                     udacityClient.getStudentPublicData({ (userInfo, errorMessage) -> Void in
                         if errorMessage == nil {
                             self.completeLogin()
-                            let student = Student(dictionary: userInfo! as! [String:AnyObject])
-                            Student.save(student)
                         } else {
-                            self.showErrorMessage("Unable to retrieve the student's publi data")
+                            self.showErrorMessage("Unable to retrieve the student's public data")
                         }
                     })
                 } else {

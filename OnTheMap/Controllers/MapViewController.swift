@@ -17,7 +17,7 @@ class MapViewController: UIViewController {
             println(student.firstName)
         }
     }
-   
+    
     
     private func parseTests() {
         let parseClient = ParseClient.sharedInstance()
@@ -26,19 +26,19 @@ class MapViewController: UIViewController {
             println(message)
         }
         
-                let studentLocation = StudentLocation()
-                studentLocation.uniqueKey = "32343534543543"
-                studentLocation.firstName = "Leo"
-                studentLocation.lastName = "Picado"
-                studentLocation.mapString = "Mountain View, CA"
-                studentLocation.mediaURL = "http://leonardopicado.com"
-                studentLocation.latitude = 37.386052
-                studentLocation.longitude = -122.083851
+        let studentLocation = StudentLocation()
+        studentLocation.uniqueKey = "32343534543543"
+        studentLocation.firstName = "Leo"
+        studentLocation.lastName = "Picado"
+        studentLocation.mapString = "Mountain View, CA"
+        studentLocation.mediaURL = "http://leonardopicado.com"
+        studentLocation.latitude = 37.386052
+        studentLocation.longitude = -122.083851
         
-                parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
-                        println(result)
-                        println(error)
-                })
+        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
+            println(result)
+            println(error)
+        })
         
     }
     
@@ -50,7 +50,7 @@ class MapViewController: UIViewController {
             
             if success {
                 println("udacityClient.logInWithUsername")
-
+                
                 udacityClient.getStudentPublicData({ (userInfo, errorMessage) -> Void in
                     if errorMessage == nil {
                         var student = Student(dictionary: userInfo! as! [String:AnyObject])

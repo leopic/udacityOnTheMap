@@ -49,6 +49,8 @@ extension UdacityClient {
                     completionHandler(success: true, errorMessage: nil)
                     self.sessionId = nil
                     self.accountKey = nil
+                    // Remove the student from NSUserDefaults
+                    Student.remove()
                 } else {
                     completionHandler(success: false, errorMessage: "Incomplete log out process")
                 }
@@ -65,6 +67,9 @@ extension UdacityClient {
                 if let errorMessage = result.valueForKeyPath(JSONResponseKeys.Error) as? String {
                     completionHandler(userInfo: nil, errorMessage: errorMessage)
                 } else {
+                    // Store the student in NSUserDefaults
+                    let student = Student(dictionary: result as! [String:AnyObject])
+                    Student.save(student)
                     completionHandler(userInfo: result, errorMessage: nil)
                 }
             } else {

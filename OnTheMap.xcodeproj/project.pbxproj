@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34F4A917DACF1F83AB9C1883 /* libPods-OnTheMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 919F6FCF2EEAB4B94AA6287A /* libPods-OnTheMap.a */; };
+		B329354D1BA6451200FA1A7C /* StudentMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329354C1BA6451200FA1A7C /* StudentMethods.swift */; };
 		B34F3E1B1BA4FE7C004B3668 /* ParseMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34F3E1A1BA4FE7C004B3668 /* ParseMethods.swift */; };
 		B3B3B9331BA5F14D004673AF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B3B9321BA5F14D004673AF /* LoginViewController.swift */; };
 		B3C943411BA4B126001D42CF /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C943381BA4B126001D42CF /* Client.swift */; };
@@ -40,6 +41,7 @@
 		5F34FF16B4BCA2BB57A36554 /* Pods-OnTheMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.release.xcconfig"; sourceTree = "<group>"; };
 		919F6FCF2EEAB4B94AA6287A /* libPods-OnTheMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OnTheMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B30A7E701BA603910091D27D /* OnTheMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnTheMap-Bridging-Header.h"; sourceTree = "<group>"; };
+		B329354C1BA6451200FA1A7C /* StudentMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentMethods.swift; sourceTree = "<group>"; };
 		B34F3E1A1BA4FE7C004B3668 /* ParseMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseMethods.swift; sourceTree = "<group>"; };
 		B3B3B9321BA5F14D004673AF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B3C943381BA4B126001D42CF /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				B3C9433F1BA4B126001D42CF /* Student.swift */,
 				B3C943401BA4B126001D42CF /* StudentLocation.swift */,
+				B329354C1BA6451200FA1A7C /* StudentMethods.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 			files = (
 				B3C943461BA4B126001D42CF /* StudentLocation.swift in Sources */,
 				B3DEBC511BA4AE9E00CB924B /* TableViewController.swift in Sources */,
+				B329354D1BA6451200FA1A7C /* StudentMethods.swift in Sources */,
 				B3C943421BA4B126001D42CF /* ParseClient.swift in Sources */,
 				B3C943431BA4B126001D42CF /* UdacityClient.swift in Sources */,
 				B3DEBC4D1BA4AE9E00CB924B /* AppDelegate.swift in Sources */,
