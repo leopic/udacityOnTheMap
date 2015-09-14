@@ -7,9 +7,7 @@
 //
 
 import Foundation
-
-//import Parse
-//class StudentLocation:PFObject {
+import MapKit
 
 class StudentLocation {
     private let MinLatitude:Float = -91.0
@@ -82,4 +80,23 @@ class StudentLocation {
         
         return locations
     }
+    
+    static func createAnnotation(location:StudentLocation) -> MKPointAnnotation {
+        let lat = CLLocationDegrees(location.latitude)
+        let long = CLLocationDegrees(location.longitude)
+        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        
+        let first = location.firstName
+        let last = location.lastName
+        let mediaURL = location.mediaURL
+        
+        var annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = "\(first) \(last)"
+        annotation.subtitle = mediaURL
+        
+        return annotation
+    
+    }
+    
 }

@@ -7,17 +7,70 @@
 //
 
 import UIKit
+import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
+    
+    @IBOutlet weak var mapView: MKMapView!
+    var student:Student!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        student = Student.fetch()!
         
-        if let student = Student.fetch() {
-            println(student.firstName)
+        let parseClient = ParseClient.sharedInstance()
+        parseClient.getStudentLocations { (locations, message) -> Void in
+            if locations == nil {
+                println(message)
+            } else {
+                var annotations = [MKPointAnnotation]()
+
+                for location in locations! {
+                    annotations.append(StudentLocation.createAnnotation(location))
+                }
+                
+                self.mapView.addAnnotations(annotations)
+            }
         }
     }
     
+    // MARK: - MKMapViewDelegate
+    
+    // Here we create a view with a "right callout accessory view". You might choose to look into other
+    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
+    // method in TableViewDataSource.
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinColor = .Red
+            pinView!.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    
+    // This delegate method is implemented to respond to taps. It opens the system browser
+    // to the URL specified in the annotationViews subtitle property.
+    func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == annotationView.rightCalloutAccessoryView {
+            let app = UIApplication.sharedApplication()
+            app.openURL(NSURL(string: annotationView.annotation.subtitle!)!)
+        }
+    }
+    
+    
+    // MARK: - Clients Test
     
     private func parseTests() {
         let parseClient = ParseClient.sharedInstance()
