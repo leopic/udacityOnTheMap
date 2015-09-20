@@ -335,7 +335,7 @@
         <!--Login-->
         <scene sceneID="n2y-Pn-JLd">
             <objects>
-                <viewController title="Login" id="8sP-xp-H7x" customClass="LoginViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" title="Login" id="8sP-xp-H7x" customClass="LoginViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zlh-qn-gDN"/>
                         <viewControllerLayoutGuide type="bottom" id="8kO-LT-kuv"/>
@@ -394,7 +394,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnLogin" destination="8sP-xp-H7x" eventType="touchUpInside" id="rZk-Da-BOc"/>
+                                    <action selector="tapOnLogInButton" destination="8sP-xp-H7x" eventType="touchUpInside" id="rZk-Da-BOc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm0-9o-Da9">
@@ -407,7 +407,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnSignUp" destination="8sP-xp-H7x" eventType="touchUpInside" id="Hik-Kv-YTn"/>
+                                    <action selector="tapOnSignUpButton" destination="8sP-xp-H7x" eventType="touchUpInside" id="Hik-Kv-YTn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -431,8 +431,8 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="textEmail" destination="7l3-Bb-9Cs" id="Wu4-ho-ze2"/>
-                        <outlet property="textPassword" destination="dJc-a3-X5X" id="dIK-8u-oB5"/>
+                        <outlet property="emailTextField" destination="7l3-Bb-9Cs" id="Wu4-ho-ze2"/>
+                        <outlet property="passwordTextField" destination="dJc-a3-X5X" id="dIK-8u-oB5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Md-IH-eci" userLabel="First Responder" sceneMemberID="firstResponder"/>

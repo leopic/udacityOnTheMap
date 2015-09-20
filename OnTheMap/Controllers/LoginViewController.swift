@@ -8,10 +8,10 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet var textEmail:UITextField!
-    @IBOutlet var textPassword:UITextField!
+    @IBOutlet var emailTextField:UITextField!
+    @IBOutlet var passwordTextField:UITextField!
     
     var appDelegate:AppDelegate!
     
@@ -26,12 +26,25 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+    
+    // - MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if emailTextField.text.isEmpty || passwordTextField.text.isEmpty {
+            return false
+        }
+        
+        resignFirstResponder()
+        tapOnLogInButton()
+        return true
     }
     
     // - MARK: - Interactions
-    @IBAction func btnLogin() {
-        let username = textEmail.text
-        let password = textPassword.text
+    @IBAction func tapOnLogInButton() {
+        let username = emailTextField.text
+        let password = passwordTextField.text
         
         if username.isEmpty || password.isEmpty {
             self.appDelegate.showErrorMessage("Make sure you provide both a username and password", context: self)
@@ -57,7 +70,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBAction func btnSignUp() {
+    @IBAction func tapOnSignUpButton() {
         let signUpURL = NSURL(string: "https://www.udacity.com/account/auth#!/signin")
         UIApplication.sharedApplication().openURL(signUpURL!)
     }
