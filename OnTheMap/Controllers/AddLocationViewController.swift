@@ -26,7 +26,6 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
         student = Student.fetch()!
         locationTextField.delegate = self
         urlTextField.delegate = self
-        println(student.firstName)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,16 +46,33 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
     }
     
     // TODO: display location in map
-    @IBAction func tapOnFindButton() {
-        println("Find \(self.locationTextField.text)")
-        step1.hidden = true
-        step2.hidden = false
+    @IBAction func tapOnFindButton() {        
+        let hud = displayLoader("Searching for location")
+        let localSearchRequest = MKLocalSearchRequest()
+        localSearchRequest.naturalLanguageQuery = self.locationTextField.text
+        let localSearch = MKLocalSearch(request: localSearchRequest)
+        localSearch.startWithCompletionHandler { (response, error) -> Void in
+            hud.dismissAfterDelay(0.1)
+
+            if error == nil {
+                var pointAnnotation = MKPointAnnotation()
+                pointAnnotation.title = self.locationTextField.text
+                pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: response.boundingRegion.center.latitude, longitude: response.boundingRegion.center.longitude)
+                var pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: nil)
+                self.step1.hidden = true
+                self.step2.hidden = false
+                self.map.centerCoordinate = pointAnnotation.coordinate
+                self.map.addAnnotation(pointAnnotation)
+            } else {
+                println(error.localizedDescription)
+            }
+        }
+        
     }
     
     // TODO: fetch lat and long from map
     @IBAction func tapOnSubmitButton() {
-        println("Submit \(self.urlTextField.text)!")
-        
+        let hud = displayLoader("Adding location")
         let parseClient = ParseClient.sharedInstance()
         let studentLocation = StudentLocation()
         studentLocation.uniqueKey = student.key
@@ -64,12 +80,13 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
         studentLocation.lastName = student.lastName
         studentLocation.mapString = locationTextField.text
         studentLocation.mediaURL = urlTextField.text
-        studentLocation.latitude = 37.386052
-        studentLocation.longitude = -122.083851
+        studentLocation.latitude = Float(self.map.centerCoordinate.latitude)
+        studentLocation.longitude = Float(self.map.centerCoordinate.longitude)
         
-        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
-            if error.isEmpty {
-                println(result)
+        parseClient.addStudentLocation(studentLocation, completionHandler: { (success, error) -> Void in
+            hud.dismissAfterDelay(0.1)
+            
+            if success {
                 self.goBackToTabBar()
             } else {
                 println(error)
@@ -82,8 +99,18 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
     }
     
     func goBackToTabBar() {
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
-        self.presentViewController(controller, animated: true, completion: nil)
+        dispatch_async(dispatch_get_main_queue(), {
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
+            self.presentViewController(controller, animated: true, completion: nil)
+        })
+    }
+    
+    func displayLoader(message:String) -> JGProgressHUD {
+        let hud = JGProgressHUD(style: .Dark)
+        hud.textLabel.text = message
+        hud.animation = JGProgressHUDFadeZoomAnimation()
+        hud.showInView(self.view)
+        return hud
     }
     
 }
