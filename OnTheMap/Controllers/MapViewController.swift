@@ -12,26 +12,10 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    var student:Student!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        student = Student.fetch()!
-        
-        let parseClient = ParseClient.sharedInstance()
-        parseClient.getStudentLocations { (locations, message) -> Void in
-            if locations == nil {
-                println(message)
-            } else {
-                var annotations = [MKPointAnnotation]()
-
-                for location in locations! {
-                    annotations.append(StudentLocation.createAnnotation(location))
-                }
-                
-                self.mapView.addAnnotations(annotations)
-            }
-        }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateLocations()
     }
     
     // MARK: - MKMapViewDelegate
@@ -69,76 +53,54 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    
-    // MARK: - Clients Test
-    
-    private func parseTests() {
-        let parseClient = ParseClient.sharedInstance()
-        parseClient.getStudentLocations { (locations, message) -> Void in
-            println(locations)
-            println(message)
-        }
-        
-        let studentLocation = StudentLocation()
-        studentLocation.uniqueKey = "32343534543543"
-        studentLocation.firstName = "Leo"
-        studentLocation.lastName = "Picado"
-        studentLocation.mapString = "Mountain View, CA"
-        studentLocation.mediaURL = "http://leonardopicado.com"
-        studentLocation.latitude = 37.386052
-        studentLocation.longitude = -122.083851
-        
-        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
-            println(result)
-            println(error)
-        })
-        
+    @IBAction func tapOnRefreshButton() {
+        updateLocations()
     }
     
-    private func udacityTests() {
-        var udacityClient = UdacityClient.sharedInstance()
+    @IBAction func tapOnLogOutButton(sender: AnyObject) {
         
-        udacityClient.logInWithUsername("user", andPassword: "pass") {
-            (success, errorMessage) in
+        let hud = displayLoader("Logging out")
+        
+        let udacityClient = UdacityClient.sharedInstance()
+        udacityClient.logOut { (success, errorMessage) -> Void in
+            hud.dismissAfterDelay(0.1)
             
             if success {
-                println("udacityClient.logInWithUsername")
-                
-                udacityClient.getStudentPublicData({ (userInfo, errorMessage) -> Void in
-                    if errorMessage == nil {
-                        var student = Student(dictionary: userInfo! as! [String:AnyObject])
-                        println("udacityClient.getStudentPublicData")
-                        
-                        let parseClient = ParseClient.sharedInstance()
-                        let location = StudentLocation(fromStudent: student)
-                        location.mapString = "Mountain View, CA"
-                        location.mediaURL = "http://leonardopicado.com"
-                        location.latitude = 37.386052
-                        location.longitude = -122.083851
-                        
-                        parseClient.addStudentLocation(location, completionHandler: { (success, message) -> Void in
-                            if success {
-                                println("parseClient.addStudentLocation")
-                                
-                                udacityClient.logOut({ (success, errorMessage) -> Void in
-                                    if success {
-                                        println("udacityClient.logOut")
-                                    }
-                                })
-                            }
-                        })
-                        
-                    } else {
-                        if let error = errorMessage {
-                            println(error)
-                        }
-                    }
+                dispatch_async(dispatch_get_main_queue(), {
+                    let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+                    self.presentViewController(controller, animated: true, completion: nil)
                 })
-                
             } else {
-                if let error = errorMessage {
-                    println(error)
+                println(errorMessage)
+            }
+        }
+    }
+    
+    func displayLoader(message:String) -> JGProgressHUD {
+        let hud = JGProgressHUD(style: .Dark)
+        hud.textLabel.text = message
+        hud.animation = JGProgressHUDFadeZoomAnimation()
+        hud.showInView(self.view)
+        return hud
+    }
+    
+    func updateLocations() {
+        let hud = displayLoader("Updating locations")
+        
+        let parseClient = ParseClient.sharedInstance()
+        parseClient.getStudentLocations { (locations, message) -> Void in
+            hud.dismissAfterDelay(0.1)
+            
+            if locations == nil {
+                println(message)
+            } else {
+                var annotations = [MKPointAnnotation]()
+                
+                for location in locations! {
+                    annotations.append(StudentLocation.createAnnotation(location))
                 }
+                
+                self.mapView.addAnnotations(annotations)
             }
         }
     }

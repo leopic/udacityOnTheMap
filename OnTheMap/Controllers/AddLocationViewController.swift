@@ -25,6 +25,7 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
         super.viewDidLoad()
         student = Student.fetch()!
         locationTextField.delegate = self
+        urlTextField.delegate = self
         println(student.firstName)
     }
     
@@ -45,17 +46,35 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
         }
     }
     
-    // TODO: hide step two, display step one
+    // TODO: display location in map
     @IBAction func tapOnFindButton() {
         println("Find \(self.locationTextField.text)")
         step1.hidden = true
         step2.hidden = false
     }
     
-    // TODO: actually submit this
+    // TODO: fetch lat and long from map
     @IBAction func tapOnSubmitButton() {
         println("Submit \(self.urlTextField.text)!")
-        goBackToTabBar()
+        
+        let parseClient = ParseClient.sharedInstance()
+        let studentLocation = StudentLocation()
+        studentLocation.uniqueKey = student.key
+        studentLocation.firstName = student.firstName
+        studentLocation.lastName = student.lastName
+        studentLocation.mapString = locationTextField.text
+        studentLocation.mediaURL = urlTextField.text
+        studentLocation.latitude = 37.386052
+        studentLocation.longitude = -122.083851
+        
+        parseClient.addStudentLocation(studentLocation, completionHandler: { (result, error) -> Void in
+            if error.isEmpty {
+                println(result)
+                self.goBackToTabBar()
+            } else {
+                println(error)
+            }
+        })
     }
     
     @IBAction func tapOnCancelButton() {

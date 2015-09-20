@@ -12,23 +12,78 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBOutlet var tableView:UITableView!
     var locations = [StudentLocation]()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        self.tableView.delegate = self
-//        self.tableView.dataSource = self
+    
+    // - MARK: UIViewController Delegate
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateLocations()
     }
     
-    // UITableView Delegate
+    // - MARK: UITableView Delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return locations.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
-        cell.textLabel?.text = locations[indexPath.row].firstName
-        
+        let studentLocation = locations[indexPath.row]
+        cell.textLabel?.text = "\(studentLocation.firstName) \(studentLocation.lastName)"
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let studentLocation = locations[indexPath.row]
+        let url = NSURL(string: studentLocation.mediaURL)!
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
+    @IBAction func tapOnRefreshButton() {
+        updateLocations()
+    }
+    
+    @IBAction func tapOnLogOutButton(sender: AnyObject) {
+        let hud = displayLoader("Logging out")
+        let udacityClient = UdacityClient.sharedInstance()
+        
+        udacityClient.logOut { (success, errorMessage) -> Void in
+            hud.dismissAfterDelay(0.1)
+            
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+                    self.presentViewController(controller, animated: true, completion: nil)
+                })
+            } else {
+                println(errorMessage)
+            }
+        }
+    }
+    
+    func updateLocations() {
+        let hud = displayLoader("Updating locations")
+        
+        let parseClient = ParseClient.sharedInstance()
+        parseClient.getStudentLocations { (locations, message) -> Void in
+            hud.dismissAfterDelay(0.1)
+            
+            if locations == nil {
+                println(message)
+            } else {
+                self.locations = locations!
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.tableView.reloadData()
+                })
+            }
+        }
+    }
+    
+    func displayLoader(message:String) -> JGProgressHUD {
+        let hud = JGProgressHUD(style: .Dark)
+        hud.textLabel.text = message
+        hud.animation = JGProgressHUDFadeZoomAnimation()
+        hud.showInView(self.view)
+        return hud
     }
 
 }
