@@ -13,20 +13,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    var appDelegate:AppDelegate!
+    
+    // - MARK: - UIView Lifecycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateLocations()
     }
     
-    // MARK: - MKMapViewDelegate
+    override func viewDidLoad() {
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    }
     
-    // Here we create a view with a "right callout accessory view". You might choose to look into other
-    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
-    // method in TableViewDataSource.
+    // - MARK: - MKMapViewDelegate
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        
         let reuseId = "pin"
-        
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
         
         if pinView == nil {
@@ -53,17 +54,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // MARK: - Interactions
     @IBAction func tapOnRefreshButton() {
         updateLocations()
     }
     
     @IBAction func tapOnLogOutButton(sender: AnyObject) {
-        
-        let hud = displayLoader("Logging out")
-        
-        let udacityClient = UdacityClient.sharedInstance()
-        udacityClient.logOut { (success, errorMessage) -> Void in
-            hud.dismissAfterDelay(0.1)
+        let hud = appDelegate.showLoader("Logging out", view: self.view)
+        UdacityClient.sharedInstance().logOut { (success, errorMessage) -> Void in
+            self.appDelegate.hideLoader(hud)
             
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -71,28 +70,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     self.presentViewController(controller, animated: true, completion: nil)
                 })
             } else {
-                println(errorMessage)
+                self.appDelegate.showErrorMessage(errorMessage!, context: self)
             }
         }
     }
     
-    func displayLoader(message:String) -> JGProgressHUD {
-        let hud = JGProgressHUD(style: .Dark)
-        hud.textLabel.text = message
-        hud.animation = JGProgressHUDFadeZoomAnimation()
-        hud.showInView(self.view)
-        return hud
-    }
+    // MARK: - Utils
     
+    /**
+    Update locations from parse, add pins to the map.
+    */
     func updateLocations() {
-        let hud = displayLoader("Updating locations")
-        
-        let parseClient = ParseClient.sharedInstance()
-        parseClient.getStudentLocations { (locations, message) -> Void in
-            hud.dismissAfterDelay(0.1)
+        let hud = appDelegate.showLoader("Updating locations", view: self.view)
+        ParseClient.sharedInstance().getStudentLocations { (locations, message) -> Void in
+            self.appDelegate.hideLoader(hud)
             
             if locations == nil {
-                println(message)
+                self.appDelegate.showErrorMessage(message, context: self)
             } else {
                 var annotations = [MKPointAnnotation]()
                 
