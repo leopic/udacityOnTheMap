@@ -31,7 +31,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="0xN-qd-nPg"/>
                                     <barButtonItem title="On The Map" style="plain" id="87n-nl-gb3">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="sf3-3q-TDa"/>
                                     <barButtonItem systemItem="add" id="aUv-w0-Hdd">
@@ -58,7 +58,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="zTp-AB-nrq" secondAttribute="trailing" constant="-16" id="zSw-g4-ODS"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="fco-dU-frX"/>
+                    <tabBarItem key="tabBarItem" title="Map" id="fco-dU-frX"/>
                     <navigationItem key="navigationItem" title="On The Map" id="8mJ-FG-vpP">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="lN4-U4-pm1"/>
                     </navigationItem>
@@ -94,7 +94,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dy-zv-Gdw" userLabel="Step 1">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dy-zv-Gdw" userLabel="Step 1">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sUK-y7-Nvr" userLabel="Header">
@@ -192,9 +192,9 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5Us-JN-b5c">
-                                        <rect key="frame" x="0.0" y="240" width="375" height="362"/>
+                                        <rect key="frame" x="0.0" y="241" width="375" height="362"/>
                                     </mapView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfQ-EQ-WMw">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfQ-EQ-WMw">
                                         <rect key="frame" x="154" y="524" width="66" height="38"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                         <state key="normal" title="Submit">
@@ -208,11 +208,13 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="nia-zl-peB" secondAttribute="trailing" id="1z6-hU-ZS3"/>
+                                    <constraint firstAttribute="bottom" secondItem="rfQ-EQ-WMw" secondAttribute="bottom" constant="41" id="4lg-Sb-B3S"/>
                                     <constraint firstItem="nia-zl-peB" firstAttribute="leading" secondItem="a2M-9T-SXj" secondAttribute="leading" id="E5I-ga-J4M"/>
                                     <constraint firstItem="5Us-JN-b5c" firstAttribute="height" secondItem="a2M-9T-SXj" secondAttribute="height" multiplier="0.6" id="N2D-q3-Vj6"/>
                                     <constraint firstItem="nia-zl-peB" firstAttribute="height" secondItem="a2M-9T-SXj" secondAttribute="height" multiplier="0.4" id="NI6-bE-WZo"/>
                                     <constraint firstItem="5Us-JN-b5c" firstAttribute="leading" secondItem="a2M-9T-SXj" secondAttribute="leading" id="O6G-1U-mLc"/>
-                                    <constraint firstItem="5Us-JN-b5c" firstAttribute="top" secondItem="nia-zl-peB" secondAttribute="bottom" constant="-1" id="TX3-m7-8TG"/>
+                                    <constraint firstItem="5Us-JN-b5c" firstAttribute="top" secondItem="nia-zl-peB" secondAttribute="bottom" id="TX3-m7-8TG"/>
+                                    <constraint firstAttribute="centerX" secondItem="rfQ-EQ-WMw" secondAttribute="centerX" constant="0.5" id="VVR-Xj-Vev"/>
                                     <constraint firstAttribute="trailing" secondItem="5Us-JN-b5c" secondAttribute="trailing" id="XW6-Os-MZf"/>
                                     <constraint firstItem="nia-zl-peB" firstAttribute="top" secondItem="a2M-9T-SXj" secondAttribute="top" id="aRB-p1-D5r"/>
                                 </constraints>
@@ -264,7 +266,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="t19-Cu-5Vd" style="IBUITableViewCellStyleDefault" id="TPF-Sf-23f">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="t19-Cu-5Vd" detailTextLabel="37I-Fh-48n" style="IBUITableViewCellStyleSubtitle" id="TPF-Sf-23f">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TPF-Sf-23f" id="grk-wf-b6U">
@@ -273,7 +275,13 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t19-Cu-5Vd">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="37I-Fh-48n">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -295,7 +303,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="lMq-eK-IcZ"/>
                                     <barButtonItem title="On The Map" style="plain" id="M0M-6j-8O3">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="sl8-ud-AUa"/>
                                     <barButtonItem systemItem="add" id="OIl-n4-ekM">
@@ -322,7 +330,7 @@
                             <constraint firstItem="MWh-LH-emC" firstAttribute="leading" secondItem="N2D-bM-8Un" secondAttribute="leadingMargin" constant="-16" id="zjr-xz-oZI"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="recents" id="YxG-aO-N47"/>
+                    <tabBarItem key="tabBarItem" title="List" id="YxG-aO-N47"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="MWh-LH-emC" id="sa1-sJ-Nc0"/>

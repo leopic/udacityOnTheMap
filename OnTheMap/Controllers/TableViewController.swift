@@ -35,6 +35,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
         let studentLocation = locations[indexPath.row]
         cell.textLabel?.text = "\(studentLocation.firstName) \(studentLocation.lastName)"
+        cell.detailTextLabel?.text = "From \(studentLocation.mapString)"
         return cell
     }
     
