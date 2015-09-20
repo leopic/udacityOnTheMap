@@ -1,9 +1,9 @@
 //
-//  StudentMethods.swift
+//  StudentMethods
 //  OnTheMap
 //
-//  Created by Leo Picado on 9/13/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Util methods used to persist and retrieve a logged in student,
+//  Question: should this be a "StudentStore" instead of an extension to the model?
 //
 
 import Foundation

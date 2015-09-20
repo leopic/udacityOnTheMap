@@ -1,14 +1,12 @@
 //
-//  UdacityMethods.swift
+//  UdacityMethods
 //  On The Map
 //
-//  Created by Leo Picado on 9/5/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  "Public" API for the Udacity client
 //
 
 import Foundation
 
-// MARK: - Methods for the UdacityClient
 extension UdacityClient {
     
     func logInWithUsername(username: String, andPassword:String,

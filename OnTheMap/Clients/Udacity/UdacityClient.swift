@@ -1,9 +1,8 @@
 //
-//  UdacityClient.swift
+//  UdacityClient
 //  On The Map
 //
-//  Created by Leo Picado on 9/5/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Mostly boilerplate code meant to interact with the Udacity API.
 //
 
 import Foundation
@@ -73,7 +72,6 @@ class UdacityClient:Client {
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "DELETE"
             
-            // TODO: pass this as additional things within the request
             var xsrfCookie: NSHTTPCookie? = nil
             let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
             for cookie in sharedCookieStorage.cookies as! [NSHTTPCookie] {
@@ -95,7 +93,6 @@ class UdacityClient:Client {
                 }
             }
             
-            /* 7. Start the request */
             task.resume()
             
             return task

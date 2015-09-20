@@ -1,16 +1,15 @@
 //
-//  FirstViewController.swift
+//  MapViewController
 //  On The Map
 //
-//  Created by Leo Picado on 9/1/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Displays last 100 entries as pins on the map.
 //
 
 import UIKit
 import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
-    
+
     @IBOutlet weak var mapView: MKMapView!
     
     var appDelegate:AppDelegate!

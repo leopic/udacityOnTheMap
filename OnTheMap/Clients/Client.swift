@@ -1,9 +1,8 @@
 //
-//  File.swift
+//  Client
 //  On The Map
 //
-//  Created by Leo Picado on 9/5/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Generic class, meant to be extended by subclasses.
 //
 
 import Foundation
@@ -54,20 +53,7 @@ class Client: NSObject {
         }
     }
     
-    /* Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error */
-    class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
-        
-        if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
-
-            // TODO: handle errors
-//            if let errorMessage = parsedResult[TMDBClient.JSONResponseKeys.StatusMessage] as? String {
-//                
-//                let userInfo = [NSLocalizedDescriptionKey : errorMessage]
-//                
-//                return NSError(domain: "TMDB Error", code: 1, userInfo: userInfo)
-//            }
-        }
-        
+    class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {        
         return error
     }
     

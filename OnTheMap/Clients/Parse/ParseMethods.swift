@@ -1,9 +1,8 @@
 //
-//  ParseMethods.swift
+//  ParseMethods
 //  OnTheMap
 //
-//  Created by Leo Picado on 9/12/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  "Public" API for the Parse client
 //
 
 import Foundation

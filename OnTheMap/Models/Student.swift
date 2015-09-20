@@ -1,9 +1,8 @@
 //
-//  Student.swift
+//  Student
 //  On The Map
 //
-//  Created by Leo Picado on 9/5/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Represents a student with data filled in from his public profile
 //
 
 import Foundation

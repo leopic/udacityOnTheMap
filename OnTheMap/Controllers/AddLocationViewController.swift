@@ -1,9 +1,8 @@
 //
-//  AddLocationViewController.swift
+//  Information Posting View
 //  OnTheMap
 //
-//  Created by Leo Picado on 9/19/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Displays last 100 entries as rows in a table view.
 //
 
 import UIKit

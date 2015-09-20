@@ -1,9 +1,8 @@
 //
-//  ParseClient.swift
+//  ParseClient
 //  On The Map
 //
-//  Created by Leo Picado on 9/5/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  Mostly boilerplate code meant to interact with the Parse API.
 //
 
 import Foundation

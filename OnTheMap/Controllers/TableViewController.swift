@@ -1,5 +1,5 @@
 //
-//  TableViewController.swift
+//  TableViewController
 //  OnTheMap
 //
 //  Created by Leo Picado on 9/12/15.

@@ -1,9 +1,8 @@
 //
-//  StudentLocation.swift
+//  StudentLocation
 //  On The Map
 //
-//  Created by Leo Picado on 9/5/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  A location where a student, well, studies.
 //
 
 import Foundation
@@ -40,13 +39,13 @@ class StudentLocation {
     
     func asDictionary() -> [String:AnyObject] {
         return [
-            "uniqueKey": self.uniqueKey!,
-            "firstName": self.firstName!,
-            "lastName": self.lastName!,
-            "mapString": self.mapString!,
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "mediaURL": self.mediaURL!
+            PropertyKeys.UniqueKey: self.uniqueKey!,
+            PropertyKeys.FirstName: self.firstName!,
+            PropertyKeys.LastName: self.lastName!,
+            PropertyKeys.MapString: self.mapString!,
+            PropertyKeys.MediaURL: self.mediaURL!,
+            PropertyKeys.Latitude: self.latitude,
+            PropertyKeys.Longitude: self.longitude
         ]
     }
     
@@ -61,14 +60,14 @@ class StudentLocation {
     
     convenience init(fromParseResponse data:[String:AnyObject]) {
         self.init()
-        firstName = data["firstName"] as! String
-        lastName = data["lastName"] as! String
-        mapString = data["mapString"] as! String
-        mediaURL = data["mediaURL"] as! String
-        objectId = data["objectId"] as? String
-        uniqueKey = data["uniqueKey"] as! String
-        latitude = data["latitude"] as! Float
-        longitude = data["longitude"] as! Float
+        objectId  = data[PropertyKeys.ObjectId] as? String
+        uniqueKey = data[PropertyKeys.UniqueKey] as! String
+        firstName = data[PropertyKeys.FirstName] as! String
+        lastName  = data[PropertyKeys.LastName] as! String
+        mapString = data[PropertyKeys.MapString] as! String
+        mediaURL  = data[PropertyKeys.MediaURL] as! String
+        latitude  = data[PropertyKeys.Latitude] as! Float
+        longitude = data[PropertyKeys.Longitude] as! Float
     }
     
     static func createFromResponse(data: [[String:AnyObject]]) -> [StudentLocation] {
@@ -96,7 +95,17 @@ class StudentLocation {
         annotation.subtitle = mediaURL
         
         return annotation
-    
+    }
+
+    struct PropertyKeys {
+        static let FirstName = "firstName"
+        static let LastName  = "lastName"
+        static let MapString = "mapString"
+        static let MediaURL  = "mediaURL"
+        static let ObjectId  = "objectId"
+        static let UniqueKey = "uniqueKey"
+        static let Latitude  = "latitude"
+        static let Longitude = "longitude"
     }
     
 }

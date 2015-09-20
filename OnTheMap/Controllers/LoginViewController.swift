@@ -1,9 +1,8 @@
 //
-//  LoginViewController.swift
+//  LoginViewController
 //  OnTheMap
 //
-//  Created by Leo Picado on 9/13/15.
-//  Copyright (c) 2015 LeoPicado. All rights reserved.
+//  First screen of the app, checks and stores student information.
 //
 
 import UIKit
