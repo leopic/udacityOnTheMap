@@ -7,17 +7,34 @@
 //
 
 import UIKit
+import MapKit
 
-class AddLocationViewController: UIViewController, UITextFieldDelegate {
+class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate {
 
     @IBOutlet var locationTextField:UITextField!
+    @IBOutlet var urlTextField:UITextField!
     @IBOutlet var findButton:UIButton!
+    @IBOutlet var submitButton:UIButton!
+    @IBOutlet var step1:UIView!
+    @IBOutlet var step2:UIView!
+    @IBOutlet var map:MKMapView!
+    
+    var student:Student!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        student = Student.fetch()!
         locationTextField.delegate = self
+        println(student.firstName)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        step1.hidden = false
+        step2.hidden = true
+    }
+    
+    // TODO: consider both textfields
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if self.locationTextField.text.isEmpty {
             return false
@@ -28,8 +45,26 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // TODO: hide step two, display step one
     @IBAction func tapOnFindButton() {
-        println("GO! \(self.locationTextField.text)")
+        println("Find \(self.locationTextField.text)")
+        step1.hidden = true
+        step2.hidden = false
+    }
+    
+    // TODO: actually submit this
+    @IBAction func tapOnSubmitButton() {
+        println("Submit \(self.urlTextField.text)!")
+        goBackToTabBar()
+    }
+    
+    @IBAction func tapOnCancelButton() {
+        goBackToTabBar()
+    }
+    
+    func goBackToTabBar() {
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
+        self.presentViewController(controller, animated: true, completion: nil)
     }
     
 }
