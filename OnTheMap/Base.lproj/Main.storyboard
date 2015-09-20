@@ -47,7 +47,7 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.99215686270000003" green="0.52549019610000003" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="zTp-AB-nrq" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="C2S-ls-mRK"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="PsY-TD-8v3" secondAttribute="bottom" id="L7k-ZB-FfO"/>
@@ -58,10 +58,11 @@
                             <constraint firstAttribute="trailingMargin" secondItem="zTp-AB-nrq" secondAttribute="trailing" constant="-16" id="zSw-g4-ODS"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" id="fco-dU-frX"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Map" id="fco-dU-frX"/>
                     <navigationItem key="navigationItem" title="On The Map" id="8mJ-FG-vpP">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="lN4-U4-pm1"/>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="mapView" destination="PsY-TD-8v3" id="WmL-cx-Jfu"/>
@@ -220,7 +221,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.99215686270000003" green="0.52549019610000003" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="3dy-zv-Gdw" firstAttribute="top" secondItem="uOx-Ns-r6r" secondAttribute="bottom" id="3pN-Pw-gve"/>
                             <constraint firstAttribute="trailingMargin" secondItem="uOx-Ns-r6r" secondAttribute="trailing" constant="-16" id="4ER-dI-j2m"/>
@@ -319,7 +320,7 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.99215686270000003" green="0.52549019610000003" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sKv-fd-Bhr" firstAttribute="top" secondItem="PaV-sf-7tl" secondAttribute="bottom" id="Kc6-Ia-MIy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MWh-LH-emC" secondAttribute="trailing" constant="-16" id="RDv-AI-MXi"/>
@@ -330,7 +331,8 @@
                             <constraint firstItem="MWh-LH-emC" firstAttribute="leading" secondItem="N2D-bM-8Un" secondAttribute="leadingMargin" constant="-16" id="zjr-xz-oZI"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="List" id="YxG-aO-N47"/>
+                    <tabBarItem key="tabBarItem" title="List" image="List" id="YxG-aO-N47"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="MWh-LH-emC" id="sa1-sJ-Nc0"/>
@@ -468,6 +470,10 @@
             <point key="canvasLocation" x="-276.5" y="329.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="List" width="25" height="25"/>
+        <image name="Map" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dbO-ej-JJZ"/>
     </inferredMetricsTieBreakers>
