@@ -22,6 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        self.mapView.delegate = self
     }
     
     // - MARK: - MKMapViewDelegate
@@ -34,19 +35,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pinView!.canShowCallout = true
             pinView!.pinColor = .Red
             pinView!.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
-        }
-        else {
+        } else {
             pinView!.annotation = annotation
         }
         
         return pinView
     }
     
-    
-    // This delegate method is implemented to respond to taps. It opens the system browser
-    // to the URL specified in the annotationViews subtitle property.
     func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
         if control == annotationView.rightCalloutAccessoryView {
             let app = UIApplication.sharedApplication()
             app.openURL(NSURL(string: annotationView.annotation.subtitle!)!)

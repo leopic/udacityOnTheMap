@@ -14,8 +14,8 @@ extension ParseClient {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
-            if error != nil { // Handle error...
-                println("something totally failed loading student locations...")
+            if error != nil {
+                completionHandler(locations: nil, message: "There was a network error fetching locations")
                 return
             }
             

@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-class StudentLocation {
+struct StudentLocation {
     private let MinLatitude:Float = -91.0
     private let MaxLatitude:Float = 91.0
     private let MinLongitude:Float = -181.0
@@ -48,18 +48,24 @@ class StudentLocation {
             PropertyKeys.Longitude: self.longitude
         ]
     }
-    
-    init() {}
-    
-    convenience init(fromStudent student:Student) {
-        self.init()
+        
+    init(fromStudent student:Student) {
         uniqueKey = student.key
         firstName = student.firstName
         lastName = student.lastName
     }
     
-    convenience init(fromParseResponse data:[String:AnyObject]) {
-        self.init()
+    init(fromStudent student:Student, andMapString:String, mediaURL:String, latitude:Float, longitude:Float) {
+        uniqueKey = student.key
+        firstName = student.firstName
+        lastName = student.lastName
+        self.mapString = andMapString
+        self.mediaURL = mediaURL
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+    
+    init(fromParseResponse data:[String:AnyObject]) {
         objectId  = data[PropertyKeys.ObjectId] as? String
         uniqueKey = data[PropertyKeys.UniqueKey] as! String
         firstName = data[PropertyKeys.FirstName] as! String

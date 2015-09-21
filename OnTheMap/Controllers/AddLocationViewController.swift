@@ -68,53 +68,59 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
     
     // - MARK: Interactions
     @IBAction func tapOnFindButton() {
-        let hud = appDelegate.showLoader("Searching location", view: self.view)
-        let localSearchRequest = MKLocalSearchRequest()
-        localSearchRequest.naturalLanguageQuery = self.locationTextField.text
-        let localSearch = MKLocalSearch(request: localSearchRequest)
-        localSearch.startWithCompletionHandler { (response, error) -> Void in
-            self.appDelegate.hideLoader(hud)
-            
-            if error == nil {
-                var pointAnnotation = MKPointAnnotation()
-                pointAnnotation.title = self.locationTextField.text
-                pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: response.boundingRegion.center.latitude, longitude: response.boundingRegion.center.longitude)
-                var pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: nil)
-                self.map.centerCoordinate = pointAnnotation.coordinate
-                self.map.addAnnotation(pointAnnotation)
-                UIView.animateWithDuration(0.6, animations: { () -> Void in
-                    self.step2.alpha = 1.0
-                    self.step1.alpha = 0.0
-                })
-            } else {
-                self.appDelegate.showErrorMessage("Unable to find such location, please try again",
-                    context: self)
+        if self.locationTextField.text.isEmpty {
+            self.appDelegate.showErrorMessage("Please enter a location, unless you are in Mars, in that case is fine",
+                context: self)
+        } else {
+            let hud = appDelegate.showLoader("Searching location", view: self.view)
+            let localSearchRequest = MKLocalSearchRequest()
+            localSearchRequest.naturalLanguageQuery = self.locationTextField.text
+            let localSearch = MKLocalSearch(request: localSearchRequest)
+            localSearch.startWithCompletionHandler { (response, error) -> Void in
+                self.appDelegate.hideLoader(hud)
+                
+                if error == nil {
+                    var pointAnnotation = MKPointAnnotation()
+                    pointAnnotation.title = self.locationTextField.text
+                    pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: response.boundingRegion.center.latitude, longitude: response.boundingRegion.center.longitude)
+                    var pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: nil)
+                    self.map.centerCoordinate = pointAnnotation.coordinate
+                    self.map.addAnnotation(pointAnnotation)
+                    UIView.animateWithDuration(0.6, animations: { () -> Void in
+                        self.step2.alpha = 1.0
+                        self.step1.alpha = 0.0
+                    })
+                } else {
+                    self.appDelegate.showErrorMessage("Unable to find such location, please try again",
+                        context: self)
+                }
             }
         }
-        
     }
     
     @IBAction func tapOnSubmitButton() {
-        let hud = appDelegate.showLoader("Adding location", view: self.view)
-        let studentLocation = StudentLocation()
-        studentLocation.uniqueKey = student.key
-        studentLocation.firstName = student.firstName
-        studentLocation.lastName = student.lastName
-        studentLocation.mapString = locationTextField.text
-        studentLocation.mediaURL = urlTextField.text
-        studentLocation.latitude = Float(self.map.centerCoordinate.latitude)
-        studentLocation.longitude = Float(self.map.centerCoordinate.longitude)
-        
-        ParseClient.sharedInstance().addStudentLocation(studentLocation, completionHandler: {
-            (success, error) -> Void in
-            self.appDelegate.hideLoader(hud)
+        if self.urlTextField.text.isEmpty {
+            self.appDelegate.showErrorMessage("Please enter a URL to share", context: self)
+        } else {
+            let hud = appDelegate.showLoader("Adding location", view: self.view)
+            let latitude = Float(self.map.centerCoordinate.latitude)
+            let longitude = Float(self.map.centerCoordinate.longitude)
+            let mapString = locationTextField.text
+            let mediaURL = urlTextField.text
+            let studentLocation = StudentLocation(fromStudent: student,
+                andMapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude)
             
-            if success {
-                self.goBackToTabBar()
-            } else {
-                self.appDelegate.showErrorMessage(error, context: self)
-            }
-        })
+            ParseClient.sharedInstance().addStudentLocation(studentLocation, completionHandler: {
+                (success, error) -> Void in
+                self.appDelegate.hideLoader(hud)
+                
+                if success {
+                    self.goBackToTabBar()
+                } else {
+                    self.appDelegate.showErrorMessage(error, context: self)
+                }
+            })
+        }
     }
     
     @IBAction func tapOnCancelButton() {
