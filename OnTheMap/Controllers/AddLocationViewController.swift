@@ -103,22 +103,35 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate, MKMapVie
             self.appDelegate.showErrorMessage("Please enter a URL to share", context: self)
         } else {
             let hud = appDelegate.showLoader("Adding location", view: self.view)
-            let latitude = Float(self.map.centerCoordinate.latitude)
-            let longitude = Float(self.map.centerCoordinate.longitude)
-            let mapString = locationTextField.text
-            let mediaURL = urlTextField.text
-            let studentLocation = StudentLocation(fromStudent: student,
-                andMapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude)
-            
-            ParseClient.sharedInstance().addStudentLocation(studentLocation, completionHandler: {
-                (success, error) -> Void in
-                self.appDelegate.hideLoader(hud)
-                
-                if success {
-                    self.goBackToTabBar()
-                } else {
-                    self.appDelegate.showErrorMessage(error, context: self)
-                }
+            let clgeocoder = CLGeocoder()
+            clgeocoder.geocodeAddressString(locationTextField.text,
+                completionHandler: { (placemarks:[AnyObject]?, error) -> Void in
+                    if error == nil {
+                        if let places = placemarks as? [CLPlacemark],
+                            coordinates = places.first?.location.coordinate,
+                            mapString = self.locationTextField.text,
+                            mediaURL = self.urlTextField.text {
+
+                                let studentLocation = StudentLocation(fromStudent: self.student,
+                                    andMapString: mapString, mediaURL: mediaURL,
+                                    latitude: Float(coordinates.latitude),
+                                    longitude: Float(coordinates.longitude))
+                                
+                                ParseClient.sharedInstance().addStudentLocation(studentLocation, completionHandler: {
+                                    (success, error) -> Void in
+                                    self.appDelegate.hideLoader(hud)
+                                    
+                                    if success {
+                                        self.goBackToTabBar()
+                                    } else {
+                                        self.appDelegate.showErrorMessage(error, context: self)
+                                    }
+                                })
+                        }
+                    } else {
+                        self.appDelegate.hideLoader(hud)
+                        self.appDelegate.showErrorMessage("There was an error converting your location into latitude and longitude", context: self)
+                    }
             })
         }
     }
