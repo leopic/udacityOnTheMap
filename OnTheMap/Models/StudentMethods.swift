@@ -3,7 +3,6 @@
 //  OnTheMap
 //
 //  Util methods used to persist and retrieve a logged in student,
-//  Question: should this be a "StudentStore" instead of an extension to the model?
 //
 
 import Foundation
