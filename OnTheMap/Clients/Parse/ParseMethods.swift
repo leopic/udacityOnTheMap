@@ -22,6 +22,7 @@ extension ParseClient {
             Client.parseJSONWithCompletionHandler(data, completionHandler: { (parsedResponse, parsingError) -> Void in
                 if parsingError == nil {
                     if let results = parsedResponse.valueForKeyPath(JSONResponseKeys.Results) as? [[String:AnyObject]] {
+                        println(parsedResponse)
                         let locations = StudentLocation.createFromResponse(results)
                         completionHandler(locations: locations, message: "Success retrieving locations")
                     } else {

@@ -8,11 +8,11 @@
 
 import UIKit
 
-class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TableViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet var tableView:UITableView!
     
-    var locations = [StudentLocation]()
+    var store = StudentLocationStore()
     var appDelegate:AppDelegate!
     
     // - MARK: UIView Lifecycle
@@ -24,23 +24,13 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        self.tableView.dataSource = store
     }
     
     // - MARK: UITableView Delegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
-        let studentLocation = locations[indexPath.row]
-        cell.textLabel?.text = "\(studentLocation.firstName) \(studentLocation.lastName)"
-        cell.detailTextLabel?.text = "From \(studentLocation.mapString)"
-        return cell
-    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let studentLocation = locations[indexPath.row]
+        let studentLocation = store.itemAtIndexPath(indexPath)
         let url = NSURL(string: studentLocation.mediaURL)!
         UIApplication.sharedApplication().openURL(url)
     }
@@ -73,14 +63,13 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     */
     func updateLocations() {
         let hud = appDelegate.showLoader("Updating locations", view: self.view)
-        ParseClient.sharedInstance().getStudentLocations { (locations, message) -> Void in
+
+        store.get { (locations, message) -> () in
             self.appDelegate.hideLoader(hud)
             
             if locations == nil {
                 self.appDelegate.showErrorMessage(message, context: self)
             } else {
-                self.locations = locations!
-                
                 dispatch_async(dispatch_get_main_queue(), {
                     self.tableView.reloadData()
                 })

@@ -32,7 +32,7 @@ class ParseClient:Client {
     }
     
     struct Methods {
-        static let StudentLocation = "1/classes/StudentLocation"
+        static let StudentLocation = "1/classes/StudentLocation?order=-updatedAt"
     }
     
     struct JSONResponseKeys {
